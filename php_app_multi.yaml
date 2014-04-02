@@ -161,7 +161,7 @@ resources:
     properties:
       count: { get_param: server_count }
       resource_def:
-        type: https://raw.github.com/hhoover/php-app-multi/master/php-app-single.yaml
+        type: https://raw.github.com/rackspace-orchestration-templates/php-app-multi/master/php-app-single.yaml
         properties:
           private_key: { get_attr: [ssh_key, private_key] }
           server_hostname: { get_param: server_hostname }

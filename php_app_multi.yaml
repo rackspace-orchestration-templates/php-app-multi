@@ -131,7 +131,7 @@ parameters:
   varnish:
     description: Install Varnish
     type: string
-    default: false
+    default: 'false'
 
   http_port:
     description: HTTP Port

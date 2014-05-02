@@ -173,8 +173,10 @@ resources:
           #sslcacert: { get_param: sslcacert }
           url: { get_param: url }
           # varnish: { get_param: varnish }
+        memcached:
+          listen: 127.0.0.1
         varnish:
-            backend_host: 127.0.0.1
+          backend_host: 127.0.0.1
         run_list: ["recipe[apt]",
                    "recipe[build-essential]",
                    "recipe[memcached]",

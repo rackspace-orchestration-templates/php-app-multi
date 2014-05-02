@@ -129,6 +129,16 @@ parameters:
     type: string
     default: false
 
+  kitchen:
+    description: URL for the kitchen to use
+    type: string
+    default: https://github.com/rackspace-orchestration-templates/php-app-multi
+
+  chef_version:
+    description: Version of chef client to use
+    type: string
+    default: 11.12.4
+
 resources:
 
   php_server:
@@ -146,32 +156,8 @@ resources:
       username: root
       private_key: { get_param: private_key }
       host: { get_attr: [php_server, accessIPv4] }
-      Berksfile: |
-        site :opscode
-
-        cookbook 'build-essential'
-        cookbook 'apt'
-        cookbook 'chef-client'
-        cookbook 'apache2'
-        cookbook 'application',
-          :git => 'https://github.com/opscode-cookbooks/application.git'
-        cookbook 'application_php',
-          :git => 'https://github.com/opscode-cookbooks/application_php.git'
-        cookbook 'php'
-        cookbook 'firewall',
-          :git => 'https://github.com/opscode-cookbooks/firewall.git',
-          :ref => 'c9473bcb3d666dc053979852042cef75236978fe'
-        cookbook 'php_app',
-          :git => 'https://github.com/JasonBoyles/php_app.git'
-        cookbook 'memcached'
-        cookbook 'ssh_known_hosts'
-        cookbook 'varnish'
-        cookbook 'php-ioncube',
-          :git => 'https://github.com/werdan/php-ioncube.git',
-          :ref => 'b663cb2a5fdcdc38564195603dc4c082517dc155'
-        cookbook 'rax_php_app',
-          :git => 'https://github.com/JasonBoyles/rax_php_app.git'
-
+      kitchen: { get_param: kitchen }
+      chef_version: { get_param: chef_version }
       node:
         php_app:
           destination: { get_param: destination }
@@ -197,5 +183,8 @@ resources:
 
 outputs:
 
-  server_ip:
-    value: { get_attr: [php_server, privateIPv4] }
+  public_ip:
+    value: { get_attr: [php_server, accessIPv4] }
+
+  private_ip:
+    value: { get_attr: [php_server, privateIPv4]}

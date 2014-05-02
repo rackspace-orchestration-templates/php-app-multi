@@ -187,7 +187,7 @@ resources:
     properties:
       name: { get_param: load_balancer_hostname }
       nodes:
-      - addresses: { get_attr: [php_setup, server_ip] }
+      - addresses: { get_attr: [php_setup, private_ip] }
         port: 80
         condition: ENABLED
       port: 80
@@ -204,3 +204,11 @@ outputs:
 
   load_balancer_ip:
     value: { get_attr: [load_balancer, PublicIp]}
+
+  server_public_ips:
+    value: { get_attr: [php_setup, public_ip] }
+    description: Array of public IP's of the Cloud Servers created
+
+  server_private_ips:
+    value: { get_attr: [php_setup, private_ip] }
+    description: Array of private IP's of the Cloud Servers created

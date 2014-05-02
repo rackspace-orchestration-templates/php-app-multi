@@ -32,7 +32,7 @@ parameters:
   server_count:
     description: Number of servers to deploy
     type: number
-    default: 1
+    default: 2
     constraints:
     - range:
         min: 0
@@ -113,20 +113,20 @@ parameters:
     type: string
     default: /
 
-  sslcert:
-    description: SSL Certificate
-    type: string
-    default: false
+  # sslcert:
+  #  description: SSL Certificate
+  #  type: string
+  #  default: false
 
-  sslkey:
-    description: SSL Key
-    type: string
-    default: false
+  # sslkey:
+  #  description: SSL Key
+  #  type: string
+  #  default: false
 
-  sslcacert:
-    description: SSL CA Certificate
-    type: string
-    default: false
+  # sslcacert:
+  #  description: SSL CA Certificate
+  #  type: string
+  #  default: false
 
   # varnish:
   #  description: Install Varnish
@@ -203,7 +203,7 @@ outputs:
     value: { get_attr: [ssh_key, private_key] }
 
   load_balancer_ip:
-    value: { get_attr: [load_balancer, PublicIp]}
+    value: { get_attr: [load_balancer, PublicIp] }
 
   server_public_ips:
     value: { get_attr: [php_setup, public_ip] }

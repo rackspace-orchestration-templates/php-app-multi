@@ -1,8 +1,8 @@
 Description
 ===========
 
-This is a template for deploying a PHP application from a git repo under mod_php
-on multiple Linux servers with [OpenStack
+This is a template for deploying a PHP application from a git repo under
+mod_php on multiple Linux servers with [OpenStack
 Heat](https://wiki.openstack.org/wiki/Heat) on the [Rackspace
 Cloud](http://www.rackspace.com/cloud/). This template is leveraging
 [chef-solo](http://docs.opscode.com/chef_solo.html) to set up the server.
@@ -36,8 +36,8 @@ heat --os-username <OS-USERNAME> --os-password <OS-PASSWORD> --os-tenant-id \
 * For UK customers, use `https://lon.identity.api.rackspacecloud.com/v2.0/` as
 the `--os-auth-url`.
 
-Optionally, set environment variables to avoid needing to provide these
-values every time a call is made:
+Optionally, set environment variables to avoid needing to provide these values
+every time a call is made:
 
 ```
 export OS_USERNAME=<USERNAME>
@@ -51,27 +51,37 @@ Parameters
 Parameters can be replaced with your own values when standing up a stack. Use
 the `-P` flag to specify a custom parameter.
 
-* `destination`: the directory into which the application will be installed. (Default: /var/www/vhosts/application)
-* `deploy_key`: the private key to deploy from a private git repo.
-* `http_port`: the port where http connections are accepted (Default: 80)
-* `https_port`: the port where https connections are accepted (Default: 443)
-* `packages`: optional Ubuntu packages containing php modules you need (Default: none)
-* `public`: the url path on which the application is accessed (Default: /)
-* `repo`: specifies a git URL from which to reploy the app (Default: none)
-* `rev`: the git tag or commit hash that should be deployed (Deafult: HEAD)
-* `varnish`: whether to install and configure [varnish](https://www.varnish-cache.org/). (Default: false)
-* `url`: the base url for your application (Default: http://example.com)
-* `flavor`: cloud server size to use. (Default: 4 GB Performance)
+* `load_balancer_hostname`: Hostname to give your Cloud Load Balancer (Default:
+  PHP-Load-Balancer)
+* `server_hostname`: Hostname to give your Cloud Servers (Default: php)
+* `server_count`: Number of Cloud Servers to Deploy (Default: 2)
+* `image`: Operating system to use (Default: Ubuntu 12.04 LTS (Precise
+  Pangolin))
+* `flavor`: Cloud Server size to use. (Default: 4 GB Performance)
 * `ssh_keypair_name`: Name of the SSH key pair to register with nova (Default:
   none)
+* `rev`: Git tag or commit hash that should be deployed (Deafult: HEAD)
+* `packages`: Comma delimited list of additional system packages to install
+  (Default: none)
+* `repo`: specifies a git URL from which to reploy the app (Default: none)
+* `url`: the base url for your application (Default: http://example.com)
+* `deploy_key`: the private key to deploy from a private git repo.
+* `destination`: the directory into which the application will be installed.
+  (Default: `/var/www/vhosts/application`)
+* `public`: the url path on which the application is accessed (Default: `/`)
+* `http_port`: the port where http connections are accepted (Default: 80)
+* `https_port`: the port where https connections are accepted (Default: 443)
 
 Outputs
 =======
 Once a stack comes online, use `heat output-list` to see all available outputs.
 Use `heat output-show <OUTPUT NAME>` to get the value fo a specific output.
 
-* `private_key`: SSH private that can be used to login as root to the server.
-* `server_ip`: Public IP address of the cloud server
+* `private_key`: SSH private that can be used to login as root to the Cloud
+  Servers.
+* `load_balancer_ip`: Public IP address of the Cloud Load Balancer
+* `server_public_ips`: Array of the public IPs of your Cloud Servers
+* `server_private_ips`: Array of the private IPs of your Cloud Servers
 
 For multi-line values, the response will come in an escaped form. To get rid of
 the escapes, use `echo -e '<STRING>' > file.txt`. For vim users, a substitution

@@ -104,10 +104,10 @@ parameters:
     type: string
     default: false
 
-  varnish:
-    description: Install Varnish
-    type: string
-    default: false
+  # varnish:
+  #  description: Install Varnish
+  #  type: string
+  #  default: false
 
   http_port:
     description: HTTP Port
@@ -201,7 +201,7 @@ resources:
           #sslkey: { get_param: sslkey }
           #sslcacert: { get_param: sslcacert }
           url: { get_param: url }
-          varnish: { get_param: varnish }
+          # varnish: { get_param: varnish }
         varnish:
             backend_host: 127.0.0.1
         run_list: ["recipe[memcached]",

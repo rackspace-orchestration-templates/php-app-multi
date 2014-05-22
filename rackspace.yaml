@@ -3,6 +3,15 @@ application-family: Application Frameworks
 application-name: PHP
 flavor: Multiple Linux servers with PHP 5
 flavor-weight: 1
+abstract: |
+      Multiple [PHP 5](http://php.net/) servers with
+      [Apache](http://httpd.apache.org/),
+      [Varnish](https://www.varnish-cache.org/), and
+      [Memcached](http://memcached.org/) behind a Cloud Load Balancer.
+
+      This deployment is intended for development and production use cases
+      incurring medium to high traffic scenarios. This deployment is easily
+      scalable and is appropriate for high traffic events.
 reach-info:
   icon-20x20: https://0b5294b243620310a700-e388a7f3aba385a925111b1fc6f680d4.ssl.cf2.rackcdn.com/php-icon-20x20.png
   tattoo: https://0b5294b243620310a700-e388a7f3aba385a925111b1fc6f680d4.ssl.cf2.rackcdn.com/php-tattoo.png

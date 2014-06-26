@@ -179,6 +179,7 @@ resources:
           public: { get_param: public }
           # varnish: { get_param: varnish }
           ssh_keypair_name: { get_param: ssh_keypair_name }
+          parent_stack_id: { get_param: "OS::stack_id" }
 
   load_balancer:
     type: "Rackspace::Cloud::LoadBalancer"
@@ -197,6 +198,8 @@ resources:
       virtualIps:
       - type: PUBLIC
         ipVersion: IPV4
+      metadata:
+        rax-heat: { get_param: "OS::stack_id" }
 
 outputs:
   private_key:

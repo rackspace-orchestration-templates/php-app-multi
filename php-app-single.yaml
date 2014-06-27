@@ -5,6 +5,11 @@ description: |
 
 parameters:
 
+  parent_stack_id:
+    description: ID of the parent stack for meta tags
+    type: string
+    default: "None"
+
   server_hostname:
     description: Server Name
     type: string
@@ -148,6 +153,8 @@ resources:
       flavor: { get_param: flavor }
       image: { get_param: image }
       key_name: { get_param: ssh_keypair_name }
+      metadata:
+        rax-heat: { get_param: parent_stack_id }
 
   php_setup:
     type: "OS::Heat::ChefSolo"

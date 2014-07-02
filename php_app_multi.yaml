@@ -5,19 +5,30 @@ description: |
 
 parameter_groups:
 
-- label: Load Balancer Settings
-  parameters:
-  - load_balancer_hostname
-
 - label: Server Settings
   parameters:
-  - server_hostname
   - image
   - flavor
 
 - label: PHP Application Settings
   parameters:
   - url
+  - revision
+  - packages
+  - repo
+  - deploy_key
+  - destination
+  - public
+
+- label: rax-dev-params
+  parameters:
+  - child_template
+  - load_balancer_hostname
+  - server_hostname
+  - http_port
+  - https_port
+  - memcached_size
+
 
 parameters:
 
@@ -48,19 +59,22 @@ parameters:
         Must begin with a letter and contain only alphanumeric characters.
 
   server_count:
-    label: Number Of Servers
-    description: Number of servers to deploy
+    label: Server Count
+    description: |
+      Required: Number of servers to spin up as a part of this deployment.
     type: number
     default: 2
     constraints:
     - range:
-        min: 0
-        max: 24
-      description: Must be between 0 and 24 servers.
+        min: 1
+        max: 25
+      description: Must be between 1 and 25 servers.
 
   image:
-    label: Server Image
-    description: Server Image
+    label: Operating System
+    description: |
+      Required: Server image used for all servers that are created as a part of
+      this deployment.
     type: string
     default: Ubuntu 12.04 LTS (Precise Pangolin)
     constraints:
@@ -70,7 +84,9 @@ parameters:
 
   flavor:
     label: Server Size
-    description: Rackspace Cloud Server flavor
+    description: |
+      Required: Rackspace Cloud Server flavor to use. The size is based on the
+      amount of RAM for the provisioned server.
     type: string
     default: 4 GB Performance
     constraints:
@@ -94,51 +110,54 @@ parameters:
         Must be a valid Rackspace Cloud Server flavor for the region you have
         selected to deploy into.
 
-  ssh_keypair_name:
-    label: SSH Keypair
-    description: Nova keypair name for ssh access to the server
-    type: string
-    default: php-app
-
   revision:
     label: Revision
-    description: Git Branch/Ref
+    description: |
+      Optional: Git Branch/Ref to deploy. Default: HEAD
     type: string
     default: HEAD
 
   packages:
-    label: PHP Packages
-    description: PHP Packages
+    label: System Packages
+    description: |
+      Optional: Additional system packages to install. For a list of available
+      packages, see: http://packages.ubuntu.com/precise/allpackages
     type: string
     default: ''
 
   repo:
-    label: Git Repo
-    description: Git Repo URL
+    label: Git Repository
+    description: |
+      Optional: URL to your git repository. Use the https syntax for public
+      repositories, use git@ syntax for private repositories.
     type: string
     default: ''
 
   url:
     label: Site Domain
-    description: URL for site
+    description: URL for your site
     type: string
     default: 'http://example.com'
 
   deploy_key:
     label: Git Deploy Key
-    description: Git deploy key for private repositories.
+    description: |
+      Optional: If you specified a private repository, provide your private
+      deploy key here.
     type: string
     default: ''
 
   destination:
     label: Site Path
-    description: Deploy Directory
+    description: Path to setup your application on your servers.
     default: /var/www/vhosts/application
     type: string
 
   public:
-    label: Public Relative Directory
-    description: The public facing directory of your application relative to the destination.
+    label: Public Directory
+    description: |
+      The public facing directory of your application relative to the
+      destination.
     type: string
     default: /
 
@@ -170,9 +189,9 @@ parameters:
 
   https_port:
     label: HTTPS Port
-      description: HTTPS Port
-      type: string
-      default: 443
+    description: HTTPS Port
+    type: string
+    default: 443
 
   memcached_size:
     label: Memcached Memory Limit
@@ -180,12 +199,26 @@ parameters:
     type: number
     default: 128
 
+  kitchen:
+    description: URL for the kitchen to use
+    type: string
+    default: https://github.com/rackspace-orchestration-templates/php-app-multi
+
+  chef_version:
+    description: Version of chef client to use
+    type: string
+    default: 11.12.8
+
+  child_template:
+    type: string
+    default: https://raw.github.com/rackspace-orchestration-templates/php-app-multi/master/php-app-single.yaml
+
 resources:
 
   ssh_key:
     type: "OS::Nova::KeyPair"
     properties:
-      name: { get_param: ssh_keypair_name }
+      name: { get_param: "OS::stack_id" }
       save_private_key: true
 
   php_setup:
@@ -193,8 +226,10 @@ resources:
     properties:
       count: { get_param: server_count }
       resource_def:
-        type: https://raw.github.com/rackspace-orchestration-templates/php-app-multi/master/php-app-single.yaml
+        type: { get_param: child_template }
         properties:
+          kitchen: { get_param: kitchen }
+          chef_version: { get_param: chef_version }
           private_key: { get_attr: [ssh_key, private_key] }
           server_hostname: { get_param: server_hostname }
           image: { get_param: image }
@@ -210,7 +245,7 @@ resources:
           destination: { get_param: destination}
           public: { get_param: public }
           # varnish: { get_param: varnish }
-          ssh_keypair_name: { get_param: ssh_keypair_name }
+          ssh_keypair_name: { get_resource: ssh_key }
           parent_stack_id: { get_param: "OS::stack_id" }
 
   load_balancer:
@@ -235,15 +270,13 @@ resources:
 
 outputs:
   private_key:
+    description: SSH Private Key
     value: { get_attr: [ssh_key, private_key] }
 
   load_balancer_ip:
+    description: Load Balancer IP
     value: { get_attr: [load_balancer, PublicIp] }
 
   server_public_ips:
     value: { get_attr: [php_setup, public_ip] }
-    description: Array of public IP's of the Cloud Servers created
-
-  server_private_ips:
-    value: { get_attr: [php_setup, private_ip] }
-    description: Array of private IP's of the Cloud Servers created
+    description: Server IPs

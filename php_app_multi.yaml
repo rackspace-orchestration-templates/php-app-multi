@@ -28,6 +28,8 @@ parameter_groups:
   - http_port
   - https_port
   - memcached_size
+  - kitchen
+  - chef_version
 
 
 parameters:

@@ -260,6 +260,11 @@ resources:
       - addresses: { get_attr: [php_setup, private_ip] }
         port: 80
         condition: ENABLED
+      healthMonitor:
+        type: CONNECT
+        delay: 10
+        timeout: 5
+        attemptsBeforeDeactivation: 1
       port: 80
       protocol: HTTP
       algorithm: ROUND_ROBIN

@@ -202,16 +202,20 @@ parameters:
     default: 128
 
   kitchen:
+    label: Kitchen URL
     description: URL for the kitchen to use
     type: string
     default: https://github.com/rackspace-orchestration-templates/php-app-multi
 
   chef_version:
+    label: Chef Version
     description: Version of chef client to use
     type: string
     default: 11.12.8
 
   child_template:
+    label: Child Template
+    description: Location of child template for provisioning PHP web nodes.
     type: string
     default: https://raw.github.com/rackspace-orchestration-templates/php-app-multi/master/php-app-single.yaml
 

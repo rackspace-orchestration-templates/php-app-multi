@@ -45,4 +45,4 @@ test-cases:
             connection_attempts: 3
             disable_known_hosts: True
             use_ssh_config: True
-            fabfile: test/fabric/phpapp.py # Path to envassert test
+            fabfile: test/fabric/deploykey.py # Path to envassert test

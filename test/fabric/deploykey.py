@@ -37,4 +37,4 @@ def check():
     assert service.is_enabled("apache2"), "redismaster is not enabled"
     assert service.is_enabled("memcached"), "memcached is not enabled"
 
-    assert apache2_is_responding('Welcome to example.com'), "php app did not respond as expected"
+    assert apache2_is_responding('PHP Version'), "php app did not respond as expected"

@@ -57,7 +57,6 @@ parameters:
   ssh_keypair_name:
     description: Nova keypair name for ssh access to the server
     type: string
-    default: php-app
 
   revision:
     description: Git Branch/Ref

@@ -111,3 +111,4 @@ instructions: |
   image](http://www.rackspace.com/knowledge_center/article/cloud-essentials-4-creating-an-image-backup-cloning-and-restoring-a-server-from-a-saved).
   Once the new server is up, [add the new server to your load
   balancer](http://www.rackspace.com/cloud/load-balancing/screenshots/).
+user-input-required: true

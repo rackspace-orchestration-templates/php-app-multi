@@ -146,7 +146,7 @@ parameters:
 resources:
 
   php_server:
-    type: "Rackspace::Cloud::Server"
+    type: "OS::Nova::Server"
     properties:
       name: { get_param: server_hostname }
       flavor: { get_param: flavor }
@@ -195,4 +195,4 @@ outputs:
     value: { get_attr: [php_server, accessIPv4] }
 
   private_ip:
-    value: { get_attr: [php_server, privateIPv4]}
+    value: { get_attr: [php_server, networks, private, 0]}

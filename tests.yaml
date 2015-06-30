@@ -17,7 +17,7 @@ test-cases:
           env:
             user: root
             key_filename: tmp/private_key
-            hosts: { get_output: server_ip } # Fetch from output-list of stack
+            hosts: { get_output: server_public_ips } # Fetch from output-list of stack
             string: WordPress
             tasks:
               - artifacts
@@ -45,7 +45,7 @@ test-cases:
           env:
             user: root
             key_filename: tmp/private_key
-            hosts: { get_output: server_ip } # Fetch from output-list of stack
+            hosts: { get_output: server_public_ips } # Fetch from output-list of stack
             string: PHP
             tasks:
               - artifacts

@@ -272,7 +272,7 @@ resources:
             "%repo%": { get_param: repo }
             "%rev%": { get_param: revision }
             "%url%": { get_param: url }
- 
+
 outputs:
   private_key:
     description: SSH Private Key

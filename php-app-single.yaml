@@ -29,6 +29,11 @@ parameter_groups:
 
 parameters:
 
+  parent_stack_id:
+    description: ID of the parent stack for meta tags
+    type: string
+    default: "None"
+
   server_hostname:
     label: Server Name
     description: Server Name

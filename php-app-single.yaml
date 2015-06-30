@@ -166,12 +166,6 @@ resources:
       name: { get_param: "OS::stack_id" }
       save_private_key: true
 
-  mysql_root_password:
-    type: "OS::Heat::RandomString"
-    properties:
-      length: 32
-      sequence: lettersdigits
-
   php_server:
     type: "OS::Nova::Server"
     properties:
@@ -214,7 +208,6 @@ resources:
                       - apache
                       - application
                       - memcached
-                      - mysql
                       - php
             # Example Pillar Data using %value% notation
             # See example pillar data from states repository.
@@ -235,8 +228,6 @@ resources:
                     deploy_key: %deploy_key%
                   memcached:
                     memory_limit: %memcached_size%
-                  mysql:
-                    root_password: %mysql_root_password%
             # Salt Bootstrap script
               - path: /tmp/heat/salt_run.sh
                 permissions: '0500'

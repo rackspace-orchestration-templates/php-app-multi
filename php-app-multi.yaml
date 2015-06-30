@@ -28,9 +28,6 @@ parameter_groups:
   - http_port
   - https_port
   - memcached_size
-  - kitchen
-  - chef_version
-
 
 parameters:
 
@@ -78,10 +75,10 @@ parameters:
       Required: Server image used for all servers that are created as a part of
       this deployment.
     type: string
-    default: Ubuntu 12.04 LTS (Precise Pangolin) (PVHVM)
+    default: Ubuntu 14.04 LTS (Trusty Tahr) (PVHVM)
     constraints:
     - allowed_values:
-      - Ubuntu 12.04 LTS (Precise Pangolin) (PVHVM)
+      - Ubuntu 14.04 LTS (Trusty Tahr) (PVHVM)
       description: Must be a supported operating system.
 
   flavor:
@@ -122,8 +119,8 @@ parameters:
   packages:
     label: System Packages
     description: |
-      Optional: Additional system packages to install. For a list of available
-      packages, see: http://packages.ubuntu.com/precise/allpackages
+      Optional: Additional system packages to install. Must be formatted as
+      as a python list: ['package1', 'package2', 'etc']
     type: string
     default: ''
 
@@ -139,7 +136,7 @@ parameters:
     label: Site Domain
     description: URL for your site
     type: string
-    default: 'http://example.com'
+    default: 'example.com'
 
   deploy_key:
     label: Git Deploy Key
@@ -163,55 +160,23 @@ parameters:
     type: string
     default: /
 
-  # sslcert:
-  #  description: SSL Certificate
-  #  type: string
-  #  default: false
-
-  # sslkey:
-  #  description: SSL Key
-  #  type: string
-  #  default: false
-
-  # sslcacert:
-  #  description: SSL CA Certificate
-  #  type: string
-  #  default: false
-
-  # varnish:
-  #  description: Install Varnish
-  #  type: string
-  #  default: 'false'
-
   http_port:
     label: HTTP Port
     description: HTTP Port
     type: string
-    default: 80
+    default: "80"
 
   https_port:
     label: HTTPS Port
     description: HTTPS Port
     type: string
-    default: 443
+    default: "443"
 
   memcached_size:
     label: Memcached Memory Limit
     description: Memcached memory size limit
     type: number
-    default: 128
-
-  kitchen:
-    label: Kitchen URL
-    description: URL for the kitchen to use
-    type: string
-    default: https://github.com/rackspace-orchestration-templates/php-app-multi
-
-  chef_version:
-    label: Chef Version
-    description: Version of chef client to use
-    type: string
-    default: 11.12.8
+    default: "128"
 
   child_template:
     label: Child Template
@@ -234,15 +199,10 @@ resources:
       resource_def:
         type: { get_param: child_template }
         properties:
-          kitchen: { get_param: kitchen }
-          chef_version: { get_param: chef_version }
           private_key: { get_attr: [ssh_key, private_key] }
           server_hostname: { get_param: server_hostname }
           image: { get_param: image }
           flavor: { get_param: flavor }
-          #sslkey: { get_param: sslkey }
-          #sslcert: { get_param: sslcert }
-          #sslcacert: { get_param: sslcacert }
           revision: { get_param: revision }
           packages: { get_param: packages }
           repo: { get_param: repo }
@@ -250,7 +210,9 @@ resources:
           deploy_key: { get_param: deploy_key }
           destination: { get_param: destination}
           public: { get_param: public }
-          # varnish: { get_param: varnish }
+          http_port: { get_param: http_port }
+          https_port: { get_param: https_port }
+          memcached_size: { get_param: memcached_size }
           ssh_keypair_name: { get_resource: ssh_key }
           parent_stack_id: { get_param: "OS::stack_id" }
 
@@ -262,7 +224,7 @@ resources:
       name: { get_param: load_balancer_hostname }
       nodes:
       - addresses: { get_attr: [php_setup, private_ip] }
-        port: 80
+        port: { get_param: http_port }
         condition: ENABLED
       healthMonitor:
         type: CONNECT

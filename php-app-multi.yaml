@@ -199,7 +199,8 @@ resources:
       resource_def:
         type: { get_param: child_template }
         properties:
-          private_key: { get_attr: [ssh_key, private_key] }
+          parent_stack_id: { get_param: "OS::stack_id" }
+          ssh_keypair_name: { get_resource: ssh_key }
           server_hostname: { get_param: server_hostname }
           image: { get_param: image }
           flavor: { get_param: flavor }
@@ -213,8 +214,6 @@ resources:
           http_port: { get_param: http_port }
           https_port: { get_param: https_port }
           memcached_size: { get_param: memcached_size }
-          ssh_keypair_name: { get_resource: ssh_key }
-          parent_stack_id: { get_param: "OS::stack_id" }
 
   load_balancer:
     type: "Rackspace::Cloud::LoadBalancer"

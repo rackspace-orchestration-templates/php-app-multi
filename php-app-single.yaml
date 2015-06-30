@@ -34,6 +34,11 @@ parameters:
     type: string
     default: "None"
 
+  ssh_keypair_name:
+    description: ssh_key resource from parent
+    type: string
+    default: "None"
+
   server_hostname:
     label: Server Name
     description: Server Name
@@ -165,21 +170,15 @@ resources:
   wait_condition_handle:
     type: OS::Heat::SwiftSignalHandle
 
-  ssh_key:
-    type: "OS::Nova::KeyPair"
-    properties:
-      name: { get_param: "OS::stack_id" }
-      save_private_key: true
-
   php_server:
     type: "OS::Nova::Server"
     properties:
       name: { get_param: server_hostname }
       flavor: { get_param: flavor }
       image: { get_param: image }
-      key_name: { get_resource: ssh_key }
+      key_name: { get_param: ssh_keypair_name }
       metadata:
-        rax-heat: { get_param: "OS::stack_id" }
+        rax-heat: { get_param: parent_stack_id }
       config_drive: "true"
       user_data_format: RAW
       user_data:

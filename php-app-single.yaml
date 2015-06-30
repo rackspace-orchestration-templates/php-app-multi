@@ -257,7 +257,6 @@ resources:
               - /tmp/heat/salt_run.sh
           params:
             wc_notify: { get_attr: ['wait_condition_handle', 'curl_cli'] }
-            "%mysql_root_password%": { get_attr: [mysql_root_password, value] }
             "%memcached_size%": { get_param: memcached_size }
             "%destination%": { get_param: destination }
             "%deploy_key%": { get_param: deploy_key }
@@ -280,7 +279,3 @@ outputs:
 
   private_ip:
     value: { get_attr: [php_server, networks, private, 0]}
-
-  mysql_root_password:
-    description: MySQL Root Password
-    value: { get_attr: [mysql_root_password, value] }

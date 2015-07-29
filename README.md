@@ -1,4 +1,4 @@
-[![Circle CI](https://circleci.com/gh/rackspace-orchestration-templates/php-app-multi.png?style=badge)](https://circleci.com/gh/rackspace-orchestration-templates/php-app-multi)
+[![Circle CI](https://circleci.com/gh/rackspace-orchestration-templates/php-app-multi/tree/master.png?style=shield)](https://circleci.com/gh/rackspace-orchestration-templates/php-app-multi)
 Description
 ===========
 
@@ -162,9 +162,9 @@ Outputs
 Once a stack comes online, use `heat output-list` to see all available outputs.
 Use `heat output-show <OUTPUT NAME>` to get the value of a specific output.
 
-* `private_key`: SSH Private Key 
-* `load_balancer_ip`: Load Balancer IP 
-* `server_public_ips`: Server IPs 
+* `private_key`: SSH Private Key
+* `load_balancer_ip`: Load Balancer IP
+* `server_public_ips`: Server IPs
 
 For multi-line values, the response will come in an escaped form. To get rid of
 the escapes, use `echo -e '<STRING>' > file.txt`. For vim users, a substitution

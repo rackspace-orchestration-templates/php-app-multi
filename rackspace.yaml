@@ -112,3 +112,11 @@ instructions: |
   Once the new server is up, [add the new server to your load
   balancer](http://www.rackspace.com/cloud/load-balancing/screenshots/).
 user-input-required: true
+description: |
+  Multiple [PHP 5](http://php.net/) servers with
+  [Apache](http://httpd.apache.org/),
+  [Varnish](https://www.varnish-cache.org/) and
+  [Memcached](http://memcached.org/) behind a Cloud Load Balancer.
+  This deployment is intended for development and production use cases
+  incurring medium to high traffic scenarios. This deployment is easily
+  scalable and is appropriate for high traffic events.

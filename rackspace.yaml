@@ -10,14 +10,8 @@ reach-info:
 hidden_outputs:
   - private_key
 abstract: |
-  Multiple [PHP 5](http://php.net/) servers with
-  [Apache](http://httpd.apache.org/),
-  [Varnish](https://www.varnish-cache.org/), and
-  [Memcached](http://memcached.org/) behind a Cloud Load Balancer.
-
-  This deployment is intended for development and production use cases
-  incurring medium to high traffic scenarios. This deployment is easily
-  scalable and is appropriate for high traffic events.
+  PHP is an open-source server-side scripting and general purpose programming
+  language.
 instructions: |
   #### Getting Started
   If you're new to PHP, the [Getting

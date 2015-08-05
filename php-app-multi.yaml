@@ -1,7 +1,15 @@
 heat_template_version: 2013-05-23
 
 description: |
-  Heat template to deploy a load balancer and multiple servers running a PHP app under apache
+  #### Multiple Servers
+
+  Multiple [PHP 5](http://php.net/) servers with
+  [Apache](http://httpd.apache.org/),
+  [Varnish](https://www.varnish-cache.org/) and
+  [Memcached](http://memcached.org/) behind a Cloud Load Balancer.
+  This deployment is intended for development and production use cases
+  incurring medium to high traffic scenarios. This deployment is easily
+  scalable and is appropriate for high traffic events.
 
 parameter_groups:
 
